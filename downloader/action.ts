@@ -1,0 +1,349 @@
+
+
+import { Gallery } from './gallery';
+import { Download, Repository, Update } from './repository';
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// Nothing informs the receiver to do nothing and move on.
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface Nothing {
+	readonly type: 'nothing';
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// BackendStarted notifies the frontend that the backend is initialized
+// and ready to accept actions.
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface BackendStarted {
+ readonly type: 'backend_started';
+ readonly repository: Repository;
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// FrontendStarted notifies the backend that the frontend is initialized
+// and ready to receive backend notifications.
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface FrontendStarted {
+	readonly type: 'frontend_started';
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// FrontendStopped notifies the backend that the frontend is stopped and
+// no longer interested in backend notifications.
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface FrontendStopped {
+	readonly type: 'frontend_stopped';
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// ShowTaskScreen instructs the frontend to show the task details in the
+// user interface.
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface ShowTaskScreen {
+	readonly type: 'show_task_screen';
+	readonly task: string;
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// CloseTaskScreen instructs the frontend to revert to the task list in
+// the user interface.
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface CloseTaskScreen {
+	readonly type: 'close_task_screen';
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// ShowCreatorPopup instructs the frontend to show the creator popup in
+// the user interface.
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface ShowCreatorPopup {
+	readonly type: 'show_creator_popup';
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// UpdateCreatorPopupUrl notifies the frontend that the url field of the
+// creator popup is updated to the given value.
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface UpdateCreatorPopupUrl {
+	readonly type: 'update_creator_popup_url';
+	readonly url: string;
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// UpdateCreatorPopupPath notifies the frontend that the path field of the
+// creator popup is updated to the given value.
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface UpdateCreatorPopupPath {
+	readonly type: 'update_creator_popup_path';
+	readonly path: string;
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// StartCreatorPopupSubmission notifies the frontend that the user has
+// triggered submission in the creator popup.
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface StartCreatorPopupSubmission {
+	readonly type: 'start_creator_popup_submission';
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// FinishCreatorPopupSubmission notifies the frontend that the outstanding
+// submission of the creator popup is finished and that the popup should
+// be reverted to a pristine state for new input.
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface FinishCreatorPopupSubmission {
+	readonly type: 'finish_creator_popup_submission';
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// FailCreatorPopupSubmission notifies the frontend that the outstanding
+// submission of the creator popup has failed with the given reason.
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface FailCreatorPopupSubmission {
+	readonly type: 'fail_creator_popup_submission';
+	readonly url_error: string | null;
+	readonly path_error: string | null;
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// CloseCreatorPopup instructs the frontend to close the creator popup in
+// the user interface.
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface CloseCreatorPopup {
+	readonly type: 'close_creator_popup';
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// StartExtractGallery instructs the backend to visit the given URL and
+// find any gallery on the page.
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface StartExtractGallery {
+	readonly type: 'start_extract_gallery';
+	readonly url: string;
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// FinishExtractGallery notifies the frontend that the given URL carries
+// the given gallery.
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface FinishExtractGallery {
+	readonly type: 'finish_extract_gallery';
+	readonly url: string;
+	readonly gallery: Gallery;
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// FailExtractGallery notifies the frontend that the given URL carries
+// no gallery.
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface FailExtractGallery {
+	readonly type: 'fail_extract_gallery';
+	readonly url: string;
+	readonly cause: string;
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// SubmitDownload instructs the backend to create a new task from the
+// given download.
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface SubmitDownload {
+	readonly type: 'submit_download';
+	readonly download: Download;
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// PauseTask instructs the backend to pause the given task temporarily.
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface PauseTask {
+	readonly type: 'pause_task';
+	readonly task: string;
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// ResumeTask instructs the backend to resume the given task, reverting
+// previous pause action against the task.
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface ResumeTask {
+	readonly type: 'resume_task';
+	readonly task: string;
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// CancelTask instructs the backend to cancel the given task permanently.
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface CancelTask {
+	readonly type: 'cancel_task';
+	readonly task: string;
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// RepeatCommand instructs the backend to repeat the given command.
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface RepeatCommand {
+	readonly type: 'repeat_command';
+	readonly task: string;
+	readonly command: string;
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// RepositoryUpdate notifies the frontend that backend repository has
+// updated..
+//
+//////////////////////////////////////////////////////////////////////////
+
+interface RepositoryUpdate {
+ readonly type: 'repository_update';
+ readonly updates: Update[];
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// Action is the discriminated union of all supported actions.
+//
+//////////////////////////////////////////////////////////////////////////
+
+type Action =
+	Nothing |
+	BackendStarted |
+	FrontendStarted |
+	FrontendStopped |
+	ShowTaskScreen |
+	CloseTaskScreen |
+	ShowCreatorPopup |
+	UpdateCreatorPopupUrl |
+	UpdateCreatorPopupPath |
+	StartCreatorPopupSubmission |
+	FinishCreatorPopupSubmission |
+	FailCreatorPopupSubmission |
+	CloseCreatorPopup |
+	StartExtractGallery |
+	FinishExtractGallery |
+	FailExtractGallery |
+	SubmitDownload |
+	PauseTask |
+	ResumeTask |
+	CancelTask |
+	RepeatCommand |
+	RepositoryUpdate
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+// Exports.
+//
+//////////////////////////////////////////////////////////////////////////
+
+export {
+	Action,
+	Nothing,
+	BackendStarted,
+	FrontendStarted,
+	FrontendStopped,
+	ShowTaskScreen,
+	CloseTaskScreen,
+	ShowCreatorPopup,
+	UpdateCreatorPopupUrl,
+	UpdateCreatorPopupPath,
+	StartCreatorPopupSubmission,
+	FinishCreatorPopupSubmission,
+	FailCreatorPopupSubmission,
+	CloseCreatorPopup,
+	StartExtractGallery,
+	FinishExtractGallery,
+	FailExtractGallery,
+	SubmitDownload,
+	PauseTask,
+	ResumeTask,
+	CancelTask,
+	RepeatCommand,
+	RepositoryUpdate
+}
+
+

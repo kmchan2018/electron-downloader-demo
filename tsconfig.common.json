@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"moduleResolution": "node",
+		"newLine": "LF",
+		"strict": true,
+		"sourceMap": true,
+		"module": "commonjs",
+		"target": "es2017",
+		"jsx": "react",
+		"typeRoots": [ "./types", "./node_modules/@types"]
+	}
+}

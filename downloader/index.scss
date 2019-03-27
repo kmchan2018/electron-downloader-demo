@@ -1,0 +1,482 @@
+
+
+$gray50: #fafafa;
+$gray100: #f5f5f5;
+$gray200: #eeeeee;
+$gray300: #e0e0e0;
+$gray400: #bdbdbd;
+$gray500: #9e9e9e;
+$gray600: #757575;
+$gray700: #616161;
+$gray800: #424242;
+$gray900: #212121;
+
+
+$header-height: 2.5rem;
+$text-inset: 0.5rem;
+$scroll-width: 3px;
+
+$primary-background: #37474F;
+$primary-foreground: #FFFFFF;
+
+$secondary-background: #546E7A;
+$secondary-foreground: #FFFFFF;
+
+$grayscale-background: #EEEEEE;
+$grayscale-foreground: #000000;
+$grayscale-border: #E0E0E0;
+
+$submitted-background: #87CEFA;
+$paused-background: #9370DB;
+$completed-background: #3CB371;
+$cancelled-background: #D2B48C;
+
+
+@mixin button($normal, $active, $disabled) {
+	border: 0px;
+	padding: 0;
+	margin: 0;
+	margin-left: $text-inset * 2;
+	font-weight: bold;
+	color: $normal;
+	background: inherit;
+	cursor: pointer;
+	outline: 0;
+
+	&:hover, &:active {
+		color: $active !important;
+	}
+
+	&:disabled {
+		color: $disabled !important;
+		cursor: default;
+	}
+}
+
+
+body {
+	font-family: 'Noto Sans', 'Droid Sans', 'Verdana', 'Arial', sans-serif;
+	font-size: 10pt;
+	cursor: default;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+
+
+#downloader {
+	width: 100vw;
+	height: 100vh;
+}
+
+
+section.panel {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: stretch;
+
+	> header {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		justify-content: space-between;
+		align-items: stretch;
+		order: 1;
+		flex-basis: $header-height;
+		flex-grow: 0;
+		flex-shrink: 0;
+		padding: 0;
+		padding-left: calc(#{$text-inset} + #{$scroll-width});
+		padding-right: calc(#{$text-inset} + #{$scroll-width});
+		margin: 0;
+		user-select: none;
+
+		> * {
+			line-height: $header-height;
+			padding: 0;
+			margin: 0;
+			border: 0;
+			box-sizing: border-box;
+		}
+
+		> *:nth-child(1) {
+			order: 1;
+			padding-left: $text-inset;
+		}
+
+		> *:nth-last-child(1) {
+			order: 2;
+			padding-right: $text-inset;
+		}
+
+		> h1 { font-size: 100%; font-weight: normal; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+		> h2 { font-size: 100%; font-weight: normal; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+		> h3 { font-size: 100%; font-weight: normal; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+		> h4 { font-size: 100%; font-weight: normal; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+		> h5 { font-size: 100%; font-weight: normal; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+		> h6 { font-size: 100%; font-weight: normal; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+		> nav > button {
+			display: inline-block;
+			border: 0;
+			padding: 0;
+			margin: 0;
+			margin-left: $text-inset * 2;
+			font-weight: bold;
+			background: inherit;
+			cursor: pointer;
+			outline: 0;
+
+			&:disabled {
+				cursor: default;
+			}
+		}
+	}
+
+	> div {
+		order: 2;
+		flex-grow: 0;
+		flex-shrink: 0;
+	}
+}
+
+
+section.content {
+	width: 100%;
+	height: 100%;
+
+	> header {
+		background: $grayscale-background;
+		color: $grayscale-foreground;
+
+		> h1 {
+			flex-basis: 10rem;
+			flex-grow: 0;
+			flex-shrink: 0;
+		}
+
+		> nav {
+			flex-grow: 1;
+			flex-shrink: 1;
+			text-align: right;
+
+			> button {
+				color: mix($grayscale-foreground, $grayscale-background, 70%);
+				&:hover { color: $grayscale-foreground !important; }
+				&:active { color: $grayscale-foreground !important; }
+				&:disabled { color: mix($grayscale-foreground, $grayscale-background, 40%) !important; }
+			}
+		}
+	}
+
+	> div {
+		flex-grow: 0;
+		flex-shrink: 0;
+		overflow-x: hidden;	
+		overflow-y: scroll;
+
+		> div {
+			width: 100%;
+			box-sizing: border-box;
+			padding: $text-inset;
+			padding-left: calc(#{$text-inset} + #{$scroll-width});
+			padding-right: calc(#{$text-inset} + #{$scroll-width});
+		}
+	}
+}
+
+
+section.popup {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(255, 255, 255, 0.4);
+	z-index: 100;
+
+	> div {
+		position: absolute;
+		top: 20vh;
+		background: white;
+		color: black;
+		box-shadow: 0 0 8px 4px rgba(0,0,0,0.35);
+		border-radius: 6px;
+		padding: 4px;
+		z-index: 101;
+
+		> header {
+			line-height: $header-height;
+			border-radius: 6px 6px 0 0;
+			background: $primary-background;
+			color: $primary-foreground;
+			text-align: center;
+			user-select: none;
+
+			> h2 {
+				line-height: $header-height;
+				padding: 0;
+				margin: 0;
+				font-size: 100%;
+				font-weight: normal;
+			}
+		}
+
+		> footer {
+			line-height: $header-height;
+			user-select: none;
+
+			> button {
+				display: inline-block;
+				line-height: $header-height;
+				padding: 0;
+				margin: 0;
+				border: 0;
+				margin-right: 1px;
+				background: $secondary-background;
+				color: mix($secondary-foreground, $secondary-background, 70%);
+				outline: none;
+				cursor: pointer;
+	
+				&:nth-child(1) { border-radius: 0 0 0 6px; }
+				&:nth-last-child(1) { border-radius: 0 0 6px 0; margin-right: 0; }
+				&:hover { color: $secondary-foreground; }
+				&:active { color: $secondary-foreground; }
+			}
+		}
+	}
+}
+
+
+table.list {
+	table-layout: fixed;
+
+	td {
+		line-height: calc(1rem + 2 * #{$text-inset});
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+
+		&:nth-child(1) {
+			padding-left: $text-inset;
+		}
+
+		&:nth-last-child(1) {
+			padding-right: $text-inset;
+		}
+
+		&.actions:nth-last-child(1) {
+			button {
+				@include button($gray900, black, $gray300);
+			}
+		}
+	}
+}
+
+
+div.input {
+	display: block;
+	line-height: 1.8rem;
+	padding: 0;
+	margin: 2 * $text-inset;
+	border: 1px solid $grayscale-border;
+	border-radius: 3px;
+	background: $grayscale-background;
+	color: $grayscale-foreground;
+
+	> * { display: inline-block; line-height: 1.8rem; padding: 0; margin: 0; border: 0; background: transparent; }
+	> .icon { width: 1.8rem; text-align: center; }
+
+	> input { background: transparent; outline: none; }
+	> input.hidden { position: absolute; width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; z-index: -1; }
+
+	> label { color: mix($grayscale-foreground, $grayscale-background, 70%); }
+	> label:hover { color: $grayscale-foreground; }
+	> label:active { color: $grayscale-foreground; }
+
+	> button { color: mix($grayscale-foreground, $grayscale-background, 70%); }
+	> button:hover { color: $grayscale-foreground; }
+	> button:active { color: $grayscale-foreground; }
+}
+
+
+section#load-screen {
+	width: 100vw;
+	height: 100vh;
+	line-height: 100%;
+	text-align: center;
+	vertical-align: middle;
+
+	> div {
+		display: inline-block;
+	}
+}
+
+
+section#main-screen {
+	width: 100%;
+	height: 100%;
+
+	> header {
+		background: $primary-background;
+		color: $primary-foreground;
+
+		> h1 {
+			flex-basis: 10rem;
+			flex-grow: 0;
+			flex-shrink: 0;
+			text-align: left;
+		}
+
+		> nav {
+			flex-grow: 1;
+			flex-shrink: 1;
+			text-align: right;
+
+			button {
+				color: mix($primary-foreground, $primary-background, 70%);
+				&:hover { color: $primary-foreground !important; }
+				&:active { color: $primary-foreground !important; }
+				&:disabled { color: mix($primary-foreground, $primary-background, 30%) !important; }
+			}
+		}
+	}
+
+	> div {
+		flex-basis: calc(100vh - #{$header-height});
+	}
+}
+
+
+section#repository-content {
+	> header {
+		> h2 { width: calc(100% - 10rem); text-align:left; }
+		> nav { width: 10rem; text-align: right; }
+	}
+
+	> div {
+		flex-basis: calc(100vh - 2 * #{$header-height});
+	}
+
+	table#repository-task-list {
+		width: 100%;
+		td.title { text-align: left; width: calc(100% - 18rem - 3rem); }
+		td.state { text-align: right; width: 13rem; }
+		td.actions { text-align: right; width: 3rem; }
+	}
+}
+
+
+section#task-content {
+	> header {
+		> h2 { width: calc(100% - 12rem); text-align: left; }
+		> nav { width: 12rem; text-align: right; }
+	}
+
+	> div {
+		flex-basis: calc(100vh - 2 * #{$header-height});
+	}
+
+	div#task-overview {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		justify-content: space-between;
+		align-items: stretch;
+		padding-top: $text-inset;
+		padding-bottom: $text-inset;
+
+		> div:nth-child(1) {
+			order: 1;
+			flex-basis: 320px;
+			flex-grow: 0;
+			flex-shrink: 0;
+			padding: 2rem 0;
+			background: $grayscale-background;
+			text-align: center;
+			user-select: none;
+
+			img {
+				user-select: none;
+				-webkit-user-drag: none;
+			}
+		}
+
+		> div:nth-child(2) {
+			order: 2;
+			flex-grow: 1;
+			flex-shrink: 1;
+			padding-left: $text-inset;
+
+			> div#task-status {
+				padding-bottom: $text-inset;
+				user-select: none;
+
+				> span { display: inline-block; font-size: 150%; height: 3.5rem; line-height: 3.5rem; text-align: center; }
+				> span.state { width: calc(24% - #{$text-inset}); margin-right: $text-inset; }
+				> span.state-submitted { background: $submitted-background; }
+				> span.state-paused { background: $paused-background; }
+				> span.state-completed { background: $completed-background; }
+				> span.state-cancelled { background: $cancelled-background; }
+				> span.total { width: 19%; background: $grayscale-background; }
+				> span.scheduled { width: 19%; background: $grayscale-background; }
+				> span.launched { width: 19%; background: $grayscale-background; }
+				> span.finished { width: 19%; background: $grayscale-background; }
+			}
+
+			> table#task-details {
+				width: 100%;
+				td:nth-child(1) { width: 7rem; user-select: none; }
+				td:nth-child(2) { width: auto; padding-right: $text-inset; }
+			}
+		}
+	}
+
+	table#task-command-list {
+		width: 100%;
+		td.title { text-align: left; width: calc(100% - 18rem - 3rem); }
+		td.state { text-align: right; width: 13rem; }
+		td.actions { text-align: right; width: 3rem; }
+	}
+}
+
+
+section#creator-popup {
+	> div {
+		width: 30rem;
+		left: calc(50vw - 15rem);
+
+		div.input.url {
+			> .control { width: calc(100% - 1.8rem); }
+		}
+
+		div.input.path {
+			> label { cursor: pointer; }
+			> .control { width: calc(100% - 3.6rem); }
+		}
+
+		> footer > button {
+			width: calc((100% - 1px) / 2);
+		}
+	}
+}
+
+
+::-webkit-scrollbar {
+	width: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	background: rgba(128,128,128,0.2);
+	-webkit-box-shadow: inset 0 0 6px rgba(128,128,128,0.2);
+}
+
+

@@ -1,0 +1,19 @@
+{
+	"extends": "./tsconfig.common.json",
+
+	"compilerOptions": {
+		"lib": [ "ES2018", "DOM", "DOM.Iterable", "ScriptHost" ]
+	},
+
+	"include": [
+		"*.ts",
+		"**/*.ts"
+	],
+
+	"exclude": [
+		"downloader/plugins/*.ts",
+		"node_modules/**",
+		"old/**",
+		"types/**"
+	]
+}

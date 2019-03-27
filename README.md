@@ -1,11 +1,11 @@
 
-! Introduction
+# Introduction
 
 This is a sample electron application that downloads images from websites. The code is
 for education, demo and personal use only. Don't expect any further support/development
 here.
 
-! Building
+# Building
 
 Execute the following command to build the project:
 
